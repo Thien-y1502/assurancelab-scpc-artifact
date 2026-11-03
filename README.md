@@ -1,7 +1,7 @@
-# AssuranceLab SCPC artifact
+# AssuranceLab SCPC v2 artifact
 
 Reproducibility repository for the **Proof-Carrying Semantic Crosswalk
-(SCPC)** bounded experiment.
+(SCPC)** independent-holdout simulation v2.
 
 SCPC evaluates typed semantic relations between versioned control statements.
 It returns a decision together with an explicit witness instead of treating
@@ -9,10 +9,10 @@ keyword overlap as equivalence.
 
 ## What is included
 
-- `SCPC/EXPERIMENT_CONTRACT.json` — frozen seeds, sample counts and metrics.
-- `SCPC/run_scpc.py` — deterministic local runner.
-- `SCPC/results.json` — executed result and claim boundary.
-- `SCPC/raw_cases.jsonl` — generated evidence rows.
+- `SCPC/EXPERIMENT_CONTRACT_V2.json` — frozen seeds, density regimes and metrics.
+- `SCPC/run_scpc_v2.py` — deterministic local runner.
+- `SCPC/results.json` — executed v2 result and claim boundary.
+- `SCPC/raw_cases_v2.jsonl` — generated evidence rows.
 - `SCPC/BASELINES.md`, `SCPC/THEORY_BOUNDARY.md`, `SCPC/REDTEAM.md` — baseline,
   proof and adversarial-review records.
 - `src/assurance_lab/` — source snapshot used by the runner.
@@ -25,12 +25,11 @@ Python 3.12 is the reference runtime and the runner has no third-party
 dependencies.
 
 ```bash
-python SCPC/run_scpc.py
+python SCPC/run_scpc_v2.py
 python -c "import json; print(json.load(open('SCPC/results.json'))['status'])"
 ```
 
-Expected status: `PASS` with claim state
-`BOUNDED_LOCAL_SEMANTIC_PASS`.
+Expected status: `PASS` with claim state `BOUNDED_SIMULATION_PASS`.
 
 ## Reproduce in Docker
 
@@ -39,7 +38,7 @@ docker build --pull=false -f SCPC/Dockerfile -t assurancelab-scpc-artifact .
 docker run --rm --network none assurancelab-scpc-artifact
 ```
 
-The container replay is an execution/reproducibility check. It is not an
+The v2 container replay is an execution/reproducibility check. It is not an
 enterprise conformity assessment or independent-host validation.
 
 ## Scientific boundary

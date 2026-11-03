@@ -1,5 +1,9 @@
 # SCPC bounded local results
 
+The current release result is v2; see `RESULTS_V2.md` and
+`EXPERIMENT_CONTRACT_V2.json`. The v1 table below is retained as historical
+evidence.
+
 Run: five seeds × 1,000 generated cases = 5,000 cases; finite audit schema has
 256 exhaustive rows. The generator and labels are synthetic and were frozen in
 `EXPERIMENT_CONTRACT.json`.

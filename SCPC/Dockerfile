@@ -4,4 +4,4 @@ COPY src ./src
 COPY common.py ./common.py
 COPY SCPC ./SCPC
 ENV PYTHONPATH=/opt/assurance-lab/src:/opt/assurance-lab
-CMD ["python", "SCPC/run_scpc.py"]
+CMD ["python", "SCPC/run_scpc_v2.py"]

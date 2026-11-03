@@ -1,0 +1,26 @@
+{
+  "candidate": "SCPC",
+  "version": "2026-11-03-independent-holdout-v2",
+  "research_question": "Can a typed relation compiler avoid false equivalence while preserving usable refinement coverage under independent density-shifted relation cases?",
+  "attributes": ["auth", "fresh", "scope", "integrity", "continuity"],
+  "seeds": [101, 211, 307, 401, 503],
+  "cases_per_seed_per_density": 2000,
+  "densities": {"sparse": 0.20, "base": 0.55, "dense": 0.80},
+  "baselines": ["untyped_crosswalk", "keyword_match", "ontology_rule", "strict_exact"],
+  "negative_controls": ["scope_mismatch", "conflict"],
+  "ablations": ["scope_disabled", "conflict_disabled"],
+  "primary_metrics": ["false_equivalence_rate", "accuracy", "witness_completeness", "scope_negative_control_rate"],
+  "secondary_metrics": ["coverage", "per_density_safety", "paired_baseline_difference"],
+  "success_rule": {
+    "false_equivalence_rate": "0.0",
+    "witness_completeness": "1.0",
+    "coverage": ">= 0.70 overall",
+    "scope_negative_control_rate": "1.0",
+    "independent_oracle_disagreement": "0",
+    "strict_exact_coverage_difference_upper_ci": "> 0",
+    "scope_and_conflict_ablation_false_equivalence": "> 0"
+  },
+  "claim_boundary": "bounded simulation with independent oracle, density shift and finite proof audit; enterprise deployment and official standards adjudication are out of scope",
+  "docker": "required_for_archive_replay",
+  "enterprise_claim": "OUT_OF_SCOPE_BY_CONTRACT"
+}

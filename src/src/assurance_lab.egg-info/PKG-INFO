@@ -1,0 +1,243 @@
+Metadata-Version: 2.4
+Name: assurance-lab
+Version: 0.1.0a11
+Summary: Evidence-first enterprise cyber-assurance contracts and deterministic audit decisions
+Author: AssuranceLab research group
+License-Expression: Apache-2.0
+Project-URL: Homepage, https://assurancelab.vercel.app
+Project-URL: Documentation, https://assurancelab.vercel.app/learn
+Project-URL: Guide catalog, https://assurancelab.vercel.app/guides
+Project-URL: API reference, https://assurancelab.vercel.app/api
+Keywords: audit,cybersecurity,assurance,compliance,evidence,risk
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Security
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: pytest>=8; extra == "dev"
+Requires-Dist: build>=1.2; extra == "dev"
+Requires-Dist: ruff>=0.6; extra == "dev"
+Requires-Dist: cryptography>=42; extra == "dev"
+Requires-Dist: scikit-learn<1.10,>=1.9; extra == "dev"
+Dynamic: license-file
+
+# AssuranceLab
+
+AssuranceLab is an evidence-first Python library for building reviewable
+cyber-assurance decisions. It connects business objectives, service
+dependencies and control requirements to attributable evidence, then returns
+an explicit decision with the evidence identities and reasons that produced
+that decision.
+
+The library is designed for bounded labs, Docker-based evaluation and
+assurance workflow development. It is not a certification service, SIEM, EDR,
+scanner or replacement for a qualified auditor.
+
+[Documentation](https://assurancelab.vercel.app) ·
+[Learning path](https://assurancelab.vercel.app/learn) ·
+[Guide catalog](https://assurancelab.vercel.app/guides) ·
+[API reference](https://assurancelab.vercel.app/api)
+
+## Install
+
+The initial public release is a prerelease and requires Python 3.11 or later:
+
+```bash
+python -m pip install --pre assurance-lab
+```
+
+Import the package with an underscore:
+
+```python
+import assurance_lab
+```
+
+The base installation has no third-party runtime dependencies.
+
+## First assurance decision
+
+The example below defines one service requirement, converts a versioned JSON
+observation into typed evidence, and evaluates the requirement at an explicit
+UTC time.
+
+```python
+from datetime import datetime, timezone
+
+from assurance_lab import (
+    AssuranceEngine,
+    MappingEvidenceAdapter,
+    compile_service_contract,
+    ingest_json_envelope,
+)
+
+now = datetime.now(timezone.utc)
+
+contract = compile_service_contract({
+    "service_id": "checkout",
+    "name": "Payment checkout",
+    "controls": [{
+        "control_id": "backup",
+        "title": "Backup is fresh",
+        "assertion": "backup_fresh",
+        "expected_value": True,
+    }],
+    "objectives": [],
+    "dependencies": [],
+})
+
+payload = {
+    "schema_version": "assurance-telemetry/v1",
+    "records": [{
+        "evidence_id": "backup-1",
+        "subject": "checkout",
+        "assertion": "backup_fresh",
+        "value": True,
+        "observed_at": now.isoformat(),
+        "kind": "runtime",
+        "provenance": "backup-monitor",
+    }],
+}
+
+evidence = ingest_json_envelope(
+    payload,
+    MappingEvidenceAdapter(),
+).evidence
+
+decision = AssuranceEngine().evaluate(
+    contract,
+    evidence,
+    now=now,
+)
+
+print(decision.state.value)
+print(decision.reasons)
+```
+
+## Decision semantics
+
+AssuranceLab does not reduce every incomplete observation to a Boolean. The
+decision boundary preserves six distinct states:
+
+| State | Meaning at the evaluation boundary |
+| --- | --- |
+| `PASS` | All required admitted evidence satisfies the contract. |
+| `FAIL` | Valid evidence contradicts a declared requirement. |
+| `UNKNOWN` | Required evidence or a required trust condition is unavailable. |
+| `EXPIRED` | Evidence falls outside its declared validity window. |
+| `CONFLICT` | Relevant admitted observations disagree. |
+| `NOT_TESTED` | No evidence reached the evaluation boundary. |
+
+`PASS` is a result for the declared contract, evidence and evaluation time. It
+does not mean certification, absence of cyber risk or organization-wide
+conformity.
+
+## What the library provides
+
+- typed service contracts for controls, business objectives and dependencies;
+- deterministic evidence-to-decision evaluation;
+- versioned JSON, JSONL and explicit OTLP/HTTP JSON ingestion;
+- subject binding, freshness, conflict and dependency semantics;
+- evidence hashing, signature verification and configurable key providers;
+- replay protection, monotonic sequences, leases and fencing tokens;
+- trusted-time samples, signed receipts and quorum policies;
+- evidence ledgers, hash-linked audit events and signed checkpoints;
+- versioned standards context and explicit crosswalk provenance;
+- NVD and MITRE ATT&CK snapshot parsing without automatic business inference;
+- fault scenarios, comparison baselines and bounded statistical utilities.
+
+The [module map](https://assurancelab.vercel.app/api/modules) explains which
+subsystem owns each responsibility.
+
+## Explicit dependency binding
+
+A dependency name is descriptive until it is bound to an assertion. For a
+strict evaluation, declare the dependency requirement and enable dependency
+binding:
+
+```python
+contract = compile_service_contract({
+    "service_id": "checkout",
+    "name": "Checkout",
+    "controls": [],
+    "objectives": [],
+    "dependencies": ["payment"],
+    "dependency_requirements": [{
+        "dependency_id": "payment",
+        "assertion": "payment_available",
+        "expected_value": True,
+    }],
+})
+
+engine = AssuranceEngine(require_dependency_binding=True)
+decision = engine.evaluate(contract, evidence, now=now)
+```
+
+Missing dependency evidence becomes `UNKNOWN`; contradictory valid evidence
+becomes `FAIL`. An unbound dependency cannot silently produce a strict
+`PASS`.
+
+## Operational pattern
+
+A practical deployment keeps collection, evaluation, retention and response
+as separate responsibilities:
+
+1. A collector authenticates to the monitored system and creates a versioned
+   observation.
+2. An adapter validates the external envelope and constructs typed evidence.
+3. Trust policies check identity, integrity, time and replay conditions.
+4. `AssuranceEngine` evaluates the evidence against the service contract.
+5. The application retains the decision and evidence references, then routes
+   the result through an approved response policy.
+
+Scheduled collection is appropriate for slower-changing controls. Event or
+telemetry-driven collection is appropriate when the required detection delay
+is shorter. The library does not choose a monitoring cadence on behalf of the
+operator.
+
+## Docker boundary
+
+After obtaining the wheel, a network-isolated smoke test can install the local
+artifact and import the package:
+
+```bash
+docker run --rm --network none \
+  -v "$PWD/assurance_lab-0.1.0a11-py3-none-any.whl:/assurance_lab-0.1.0a11-py3-none-any.whl:ro" \
+  python:3.12-slim \
+  sh -c "python -m pip install --no-index --no-deps /assurance_lab-0.1.0a11-py3-none-any.whl && \
+         python -c 'import assurance_lab; print(assurance_lab.__name__)'"
+```
+
+Installing directly from PyPI requires network access. The network-isolated
+boundary starts only after a wheel is mounted or included in a container image.
+
+## Standards and audit boundary
+
+Standards are represented as versioned context with provenance. They are not
+hard-coded keyword rules and they do not convert a library decision into an
+ISO certificate or formal conformity opinion. The organization remains
+responsible for scope, applicability, audit criteria, evidence ownership,
+risk acceptance and response authority.
+
+See the [standards model](https://assurancelab.vercel.app/standards) and
+[security boundary](https://assurancelab.vercel.app/resources/security) before
+using a decision in an operational workflow.
+
+## Release status
+
+The current package is an alpha research release intended for controlled
+evaluation. Local and Docker smoke tests support the documented bounded
+workflow. Production orchestration, enterprise scale, cloud SLA, independent
+organizational validation and certification remain outside the release claim.
+
+## License
+
+Apache License 2.0.
