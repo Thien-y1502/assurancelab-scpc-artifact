@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+title: "AssuranceLab SCPC reproducibility artifact"
+type: software
+message: "Please cite the associated manuscript when available; until then cite this artifact repository and commit."
+authors:
+  - family-names: "AssuranceLab"
+    given-names: "Research Group"
+version: "0.1.0a11-scpc"
+date-released: 2026-11-03
+license: Apache-2.0
+repository-code: "https://github.com/Thien-y1502/assurancelab-scpc-artifact"

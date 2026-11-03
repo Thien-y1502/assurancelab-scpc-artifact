@@ -1,0 +1,29 @@
+{
+  "candidate": "SCPC",
+  "version": "2026-11-03-pre-registered-v1",
+  "research_question": "Can a typed relation compiler avoid false equivalence while preserving usable refinement coverage across versioned cyber-assurance obligations?",
+  "primary_metrics": [
+    "false_equivalence_rate",
+    "relation_accuracy",
+    "witness_completeness"
+  ],
+  "secondary_metrics": ["coverage", "unknown_rate", "scope_negative_control_rate"],
+  "seeds": [11, 23, 37, 41, 53],
+  "cases_per_seed": 1000,
+  "finite_proof_schema": ["auth", "fresh", "scope"],
+  "baselines": ["untyped_crosswalk", "keyword_match", "ontology_rule", "strict_exact"],
+  "falsifiers": [
+    "scpc_false_equivalence_rate_above_zero",
+    "scpc_witness_completeness_below_one",
+    "scope_mismatch_negative_control_is_accepted_as_equivalent",
+    "scpc_does_not_dominate_strict_exact_on_coverage_at_equal_zero_false_equivalence"
+  ],
+  "success_rule": {
+    "false_equivalence_rate": "0.0",
+    "witness_completeness": "1.0",
+    "coverage": ">= 0.70",
+    "scope_negative_control_rate": "1.0"
+  },
+  "docker": "required_for_reproduction_but_unavailable_at_execution_time",
+  "enterprise_claim": "NOT_TESTED"
+}

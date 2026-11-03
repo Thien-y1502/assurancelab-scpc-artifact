@@ -1,0 +1,282 @@
+{
+  "candidate": "SCPC",
+  "cases_per_seed": 1000,
+  "claim_state": "BOUNDED_LOCAL_SEMANTIC_PASS",
+  "docker": "NOT_TESTED",
+  "enterprise_validity": "NOT_TESTED",
+  "environment": {
+    "docker": {
+      "server": "29.9.2",
+      "status": "AVAILABLE"
+    },
+    "implementation": "CPython",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]"
+  },
+  "finite_proof_audit": {
+    "false_equivalence": 0,
+    "rows": 256,
+    "schema": [
+      "auth",
+      "fresh",
+      "scope"
+    ],
+    "soundness_pass": true,
+    "witness_complete": 1.0,
+    "witness_pass": true
+  },
+  "methods": {
+    "keyword_match": {
+      "accuracy": 0.477,
+      "accuracy_ci_across_seeds": [
+        0.477,
+        0.4590152611166454,
+        0.49498473888335454
+      ],
+      "coverage": 0.89,
+      "false_equivalence_rate": 0.3528,
+      "n": 5000,
+      "per_seed": [
+        {
+          "accuracy": 0.454,
+          "coverage": 0.902,
+          "false_equivalence_rate": 0.376,
+          "seed": 11
+        },
+        {
+          "accuracy": 0.5,
+          "coverage": 0.887,
+          "false_equivalence_rate": 0.335,
+          "seed": 23
+        },
+        {
+          "accuracy": 0.496,
+          "coverage": 0.876,
+          "false_equivalence_rate": 0.335,
+          "seed": 37
+        },
+        {
+          "accuracy": 0.474,
+          "coverage": 0.897,
+          "false_equivalence_rate": 0.348,
+          "seed": 41
+        },
+        {
+          "accuracy": 0.461,
+          "coverage": 0.888,
+          "false_equivalence_rate": 0.37,
+          "seed": 53
+        }
+      ],
+      "scope_negative_control_rate": 0.0,
+      "witness_completeness": 0.0
+    },
+    "ontology_rule": {
+      "accuracy": 0.7116,
+      "accuracy_ci_across_seeds": [
+        0.7116,
+        0.6980691490513611,
+        0.7251308509486389
+      ],
+      "coverage": 0.89,
+      "false_equivalence_rate": 0.2884,
+      "n": 5000,
+      "per_seed": [
+        {
+          "accuracy": 0.724,
+          "coverage": 0.902,
+          "false_equivalence_rate": 0.276,
+          "seed": 11
+        },
+        {
+          "accuracy": 0.729,
+          "coverage": 0.887,
+          "false_equivalence_rate": 0.271,
+          "seed": 23
+        },
+        {
+          "accuracy": 0.692,
+          "coverage": 0.876,
+          "false_equivalence_rate": 0.308,
+          "seed": 37
+        },
+        {
+          "accuracy": 0.712,
+          "coverage": 0.897,
+          "false_equivalence_rate": 0.288,
+          "seed": 41
+        },
+        {
+          "accuracy": 0.701,
+          "coverage": 0.888,
+          "false_equivalence_rate": 0.299,
+          "seed": 53
+        }
+      ],
+      "scope_negative_control_rate": 0.0,
+      "witness_completeness": 0.0
+    },
+    "scpc": {
+      "accuracy": 1.0,
+      "accuracy_ci_across_seeds": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "coverage": 0.7324,
+      "false_equivalence_rate": 0.0,
+      "n": 5000,
+      "per_seed": [
+        {
+          "accuracy": 1.0,
+          "coverage": 0.75,
+          "false_equivalence_rate": 0.0,
+          "seed": 11
+        },
+        {
+          "accuracy": 1.0,
+          "coverage": 0.749,
+          "false_equivalence_rate": 0.0,
+          "seed": 23
+        },
+        {
+          "accuracy": 1.0,
+          "coverage": 0.718,
+          "false_equivalence_rate": 0.0,
+          "seed": 37
+        },
+        {
+          "accuracy": 1.0,
+          "coverage": 0.735,
+          "false_equivalence_rate": 0.0,
+          "seed": 41
+        },
+        {
+          "accuracy": 1.0,
+          "coverage": 0.71,
+          "false_equivalence_rate": 0.0,
+          "seed": 53
+        }
+      ],
+      "scope_negative_control_rate": 1.0,
+      "witness_completeness": 1.0
+    },
+    "strict_exact": {
+      "accuracy": 0.5038,
+      "accuracy_ci_across_seeds": [
+        0.5038,
+        0.49206637804709574,
+        0.5155336219529043
+      ],
+      "coverage": 0.2362,
+      "false_equivalence_rate": 0.0,
+      "n": 5000,
+      "per_seed": [
+        {
+          "accuracy": 0.482,
+          "coverage": 0.232,
+          "false_equivalence_rate": 0.0,
+          "seed": 11
+        },
+        {
+          "accuracy": 0.505,
+          "coverage": 0.254,
+          "false_equivalence_rate": 0.0,
+          "seed": 23
+        },
+        {
+          "accuracy": 0.504,
+          "coverage": 0.222,
+          "false_equivalence_rate": 0.0,
+          "seed": 37
+        },
+        {
+          "accuracy": 0.51,
+          "coverage": 0.245,
+          "false_equivalence_rate": 0.0,
+          "seed": 41
+        },
+        {
+          "accuracy": 0.518,
+          "coverage": 0.228,
+          "false_equivalence_rate": 0.0,
+          "seed": 53
+        }
+      ],
+      "scope_negative_control_rate": 1.0,
+      "witness_completeness": 0.0
+    },
+    "untyped_crosswalk": {
+      "accuracy": 0.3462,
+      "accuracy_ci_across_seeds": [
+        0.3462,
+        0.33430380972939777,
+        0.35809619027060224
+      ],
+      "coverage": 0.89,
+      "false_equivalence_rate": 0.6538,
+      "n": 5000,
+      "per_seed": [
+        {
+          "accuracy": 0.33,
+          "coverage": 0.902,
+          "false_equivalence_rate": 0.67,
+          "seed": 11
+        },
+        {
+          "accuracy": 0.367,
+          "coverage": 0.887,
+          "false_equivalence_rate": 0.633,
+          "seed": 23
+        },
+        {
+          "accuracy": 0.346,
+          "coverage": 0.876,
+          "false_equivalence_rate": 0.654,
+          "seed": 37
+        },
+        {
+          "accuracy": 0.348,
+          "coverage": 0.897,
+          "false_equivalence_rate": 0.652,
+          "seed": 41
+        },
+        {
+          "accuracy": 0.34,
+          "coverage": 0.888,
+          "false_equivalence_rate": 0.66,
+          "seed": 53
+        }
+      ],
+      "scope_negative_control_rate": 0.0,
+      "witness_completeness": 0.0
+    }
+  },
+  "next_gate": "independent Docker reproduction and formal relation-proof audit",
+  "novelty": "NOT_PROVEN",
+  "registry_snapshot": {
+    "crosswalk_count": 0,
+    "packs": [
+      "ISO 19011:2026",
+      "ISO 22301:2019",
+      "ISO 22313:2020",
+      "ISO/IEC 27000:2026",
+      "ISO/IEC 27001:2022",
+      "ISO/IEC 27002:2022",
+      "ISO/IEC 27031:2025",
+      "ISO/IEC 27090:2026",
+      "ISO/TS 22317:2021",
+      "NIST CSF:2.0",
+      "NIST SP 800-137:2011",
+      "NIST SP 800-34:Rev.1"
+    ]
+  },
+  "seeds": [
+    11,
+    23,
+    37,
+    41,
+    53
+  ],
+  "status": "PASS"
+}
